@@ -14,12 +14,12 @@ const CheckPasswordPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-
-  useEffect(()=>{
-    if(!location?.state?.name){
+  
+  useEffect(() => {
+    if (!location?.state?.name) {
       navigate('/email')
     }
-  },[])
+  }, [location?.state?.name, navigate])
 
   const handleOnChange = (e)=>{
     const { name, value} = e.target
@@ -35,28 +35,30 @@ const CheckPasswordPage = () => {
   const handleSubmit = async(e)=>{
     e.preventDefault()
     e.stopPropagation()
-
+  
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`
-
+  
     try {
         const response = await axios({
-          method :'post',
-          url : URL,
-          data : {
-            userId : location?.state?._id,
-            password : data.password
+          method: 'post',
+          url: URL,
+          data: {
+            userId: location?.state?._id,
+            password: data.password
           },
-          withCredentials : true
+          withCredentials: true
         })
-
+  
         toast.success(response.data.message)
-
+  
         if(response.data.success){
-            dispatch(setToken(response?.data?.token))
-            localStorage.setItem('token',response?.data?.token)
-
+            const token = response?.data?.token;
+            console.log('Token received:', token); // Log the token
+            dispatch(setToken(token))
+            localStorage.setItem('token', token)
+            
             setData({
-              password : "",
+              password: "",
             })
             navigate('/')
         }
@@ -64,6 +66,7 @@ const CheckPasswordPage = () => {
         toast.error(error?.response?.data?.message)
     }
   }
+  
 
 
   return (
