@@ -20,12 +20,14 @@ const Home = () => {
         withCredentials: true
       })
 
-      dispatch(setUser(response.data.data))
+      console.log('User Details Response:', response.data) // Add logging
 
-      if (response.data.data.logout) {
+      if (response.data.logout) {
         dispatch(logout())
         console.log("no data found")
         navigate("/email")
+      } else {
+        dispatch(setUser(response.data.data))
       }
     } catch (error) {
       console.log("error", error)
