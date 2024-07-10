@@ -23,6 +23,7 @@ const Home = () => {
 
         if(response.data.data.logout){
             dispatch(logout())
+            console.log("no data found");
             navigate("/email")
         }
     } catch (error) {
