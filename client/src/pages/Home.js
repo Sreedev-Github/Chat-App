@@ -14,30 +14,30 @@ const Home = () => {
 
   const fetchUserDetails = useCallback(async () => {
     try {
-      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
+      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
       const response = await axios({
         url: URL,
         withCredentials: true
-      })
-
-      console.log('User Details Response:', response.data) // Add logging
-
+      });
+  
+      console.log('User Details Response:', response.data);
+  
       if (response.data.logout) {
-        dispatch(logout())
-        console.log("no data found")
-        navigate("/email")
+        dispatch(logout());
+        console.log("no data found");
+        navigate("/email");
       } else {
-        dispatch(setUser(response.data.data))
+        dispatch(setUser(response.data.data));
       }
     } catch (error) {
-      console.log("error", error)
+      console.log("error", error);
     }
-  }, [dispatch, navigate])
-
+  }, [dispatch, navigate]);
+  
   useEffect(() => {
-    fetchUserDetails()
-  }, [fetchUserDetails])
-
+    fetchUserDetails();
+  }, [fetchUserDetails]);
+  
   /***socket connection */
   useEffect(() => {
     const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {

@@ -32,43 +32,39 @@ const CheckPasswordPage = () => {
     })
   }
 
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
-    e.stopPropagation()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
   
     try {
-        const response = await axios({
-          method: 'post',
-          url: URL,
-          data: {
-            userId: location?.state?._id,
-            password: data.password
-          },
-          withCredentials: true
-        })
+      const response = await axios({
+        method: 'post',
+        url: URL,
+        data: {
+          userId: location?.state?._id,
+          password: data.password
+        },
+        withCredentials: true
+      });
   
-        toast.success(response.data.message)
+      toast.success(response.data.message);
   
-        if(response.data.success){
-            const token = response?.data?.token;
-            console.log('Token received:', token); // Log the token
-            dispatch(setToken(token))
-            localStorage.setItem('token', token)
-            
-            setData({
-              password: "",
-            })
-            navigate('/')
-        }
+      if (response.data.success) {
+        dispatch(setToken(response?.data?.token));
+        localStorage.setItem('token', response?.data?.token);
+  
+        setData({
+          password: "",
+        });
+        navigate('/');
+      }
     } catch (error) {
-        toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     }
-  }
+  };
   
-
-
   return (
     <div className='mt-5'>
         <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
